@@ -1,0 +1,10 @@
+<style>
+.reveal section img {
+        display: block;
+        margin: auto;
+        height: auto;
+        max-height: 450px;
+        width: auto;
+        max-width: 100%;
+}
+</style>

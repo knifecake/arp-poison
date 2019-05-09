@@ -33,8 +33,26 @@ el uso de soluciones más sofisticadas de detección y mitigación de este ataqu
 
 El proyecto consiste principalmente de tres partes:
 
-1. **Investigación sobre el funcionamiento de un ataque de suplantación ARP.** El objetivo principal de esta fase es familiarizarse con el ataque desde un punto de vista teórico y práctico. En concreto se plantea el análisis de herramientas como Ethercap, presente en el sistema operativo Kali Linux. Esta herramienta es capaz de ejecutar un ataque en un entorno controlado. Mediante la inspección del tráfico con Wireshark es posible entender cómo se ha de implementar el ataque. Además, se plantea el estudio de herramientas de mitigación como Antidote de cara a entender qué dificultades pueden aparecer a la hora de implementar el ataque.
+1. **Investigación sobre el funcionamiento de un ataque de suplantación ARP.**
+   El objetivo principal de esta fase es familiarizarse con el ataque desde un
+   punto de vista teórico y práctico. En concreto se plantea el análisis de
+   herramientas como Ethercap, presente en el sistema operativo Kali Linux.
+   Esta herramienta es capaz de ejecutar un ataque en un entorno controlado.
+   Mediante la inspección del tráfico con Wireshark es posible entender cómo se
+   ha de implementar el ataque. Además, se plantea el estudio de herramientas
+   de mitigación como Antidote de cara a entender qué dificultades pueden
+   aparecer a la hora de implementar el ataque.
 
-2. **Implementación del ataque de suplantación ARP.** Desarrollo de un programa capaz de detectar tráfico ARP, en concreto paquetes de tipo `ARP_REQUEST` y contestar con paquetes maliciosos diseñados para suplantar la MAC del gateway en las tablas ARP de la víctima. Este software se desarrollará para Linux y se probará en un entorno controlado mediante virtualización de la red y los sistemas operativos.
+2. **Implementación del ataque de suplantación ARP.** Desarrollo de un programa
+   capaz de detectar tráfico ARP, en concreto paquetes de tipo `ARP_REQUEST` y
+   contestar con paquetes maliciosos diseñados para suplantar la MAC del
+   gateway en las tablas ARP de la víctima. Este software se desarrollará para
+   Linux y se probará en un entorno controlado mediante virtualización de la
+   red y los sistemas operativos.
 
-3. **Implementación del proxy para el ataque MITM.** Desarrollo de un programa que filtre el tráfico y retenga las respuestas al protocolo HTTP que vayan destinadas a la víctima. En caso de tratarse de archivos HTML los modifica para sustituir las imágenes por otras. El objetivo de esta parte es demostrar de manera clara la viabilidad de este tipo de ataque, especialmente en caso de no utilizar protocolos seguros como HTTPS.
+3. **Implementación del proxy para el ataque MITM.** Desarrollo de un programa
+   que filtre el tráfico y retenga las respuestas al protocolo HTTP que vayan
+   destinadas a la víctima. En caso de tratarse de archivos HTML los modifica
+   para sustituir las imágenes por otras. El objetivo de esta parte es
+   demostrar de manera clara la viabilidad de este tipo de ataque,
+   especialmente en caso de no utilizar protocolos seguros como HTTPS.

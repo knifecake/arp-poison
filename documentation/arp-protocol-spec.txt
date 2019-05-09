@@ -1,0 +1,1 @@
+Ethernet source:48,Ethernet destination:48,Protocol type:16,Hardware addr space:16,Protocol addr space:16,Hw addr len:8,Proto addr len:8,opcode:16,Source hardware addr:48,Source protocl addr:32,Destination hardware addr:48,Destination protocol addr:32

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Elias Hernandis">
+  <title>ARP Spoofing</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+  <style>
+  .reveal section img {
+          display: block;
+          margin: auto;
+          height: auto;
+          max-height: 450px;
+          width: auto;
+          max-width: 100%;
+  }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">ARP Spoofing</h1>
+  <p class="author">Elias Hernandis</p>
+  <p class="date">mayo de 2019</p>
+</section>
+
+<section id="arp-address-resolution-protocol" class="slide level2">
+<h2>ARP: Address Resolution Protocol</h2>
+<ul>
+<li>ARP-Request: <code>Who-has 192.168.4.20? Tell 192.168.1.1?</code></li>
+<li>ARP-Response: <code>192.168.4.20 is at f0:f3:e4:c2:01:b3</code></li>
+</ul>
+<p><img data-src="arp-flow.png" /></p>
+</section>
+<section id="arp-packets" class="slide level2">
+<h2>ARP packets</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><img data-src="arp-packet.png" /></p>
+<p><small>Source: Wikipedia</small></p>
+</div><div class="column" style="width:60%;">
+<ul>
+<li><p>No hay autenticación</p></li>
+<li><p>Las direcciones de hardware a nivel ARP no tienen que coincidir con las direcciones MAC a nivel de enlace.</p></li>
+</ul>
+<p>. . .</p>
+<p>😯</p>
+</div>
+</div>
+</section>
+<section id="algoritmo-de-recepción-de-arp-requests" class="slide level2">
+<h2>Algoritmo de recepción de ARP-Requests</h2>
+<pre><code>?Do I have the hardware type in ar$hrd?
+Yes: (almost definitely)
+  [optionally check the hardware length ar$hln]
+  ?Do I speak the protocol in ar$pro?
+  Yes:
+    [optionally check the protocol length ar$pln]
+    Merge_flag := false
+    If the pair &lt;protocol type, sender protocol address&gt; is
+        already in my translation table, update the sender
+        hardware address field of the entry with the new
+        information in the packet and set Merge_flag to true.
+    ?Am I the target protocol address?
+    Yes:
+      If Merge_flag is false, add the triplet &lt;protocol type,
+          sender protocol address, sender hardware address&gt; to
+          the translation table.
+      ?Is the opcode ares_op$REQUEST?  (NOW look at the opcode!!)
+      Yes:
+        Swap hardware and protocol fields, putting the local
+            hardware and protocol addresses in the sender fields.
+        Set the ar$op field to ares_op$REPLY
+        Send the packet to the (new) target hardware address on
+        the same hardware on which the request was received.</code></pre>
+<aside class="notes">
+<ul>
+<li>RFC826 1982. David C. Plummer. MIT.</li>
+</ul>
+</aside>
+</section>
+<section class="slide level2">
+
+<h3 id="por-qué">¿Por qué?</h3>
+<blockquote>
+<p>Periodic broadcasting is definitely not desired.</p>
+</blockquote>
+<aside class="notes">
+<ul>
+<li>La especificación asume que el tráfico se dará entre pares: no todos necesitan conocer las direcciones de todos.</li>
+<li>Aprovechamiento de recursos de red.</li>
+<li>No hace falta que cada host haga <em>broadcast</em> de su dirección ya que los que se quieran comunicar con él conocerán su dirección.</li>
+</ul>
+</aside>
+</section>
+<section class="slide level2">
+
+<h3 id="por-qué-nos-importa">¿Por qué nos importa?</h3>
+<div class="fragment">
+<ol type="1">
+<li>Crear un paquete ARP-Request con los campos</li>
+</ol>
+<pre><code>HW src: &lt;mi dirección MAC&gt;
+Prot src: &lt;IP del gateway&gt;
+Prot dst: &lt;IP de la víctima&gt;*</code></pre>
+<ol start="2" type="1">
+<li>Empaquetarlo en un paquete Ethernet dirigido exclusivamente a la víctima:
+<ul>
+<li>No hacer <em>broadcast</em> nos mantiene ocultos</li>
+</ul></li>
+<li>Enviar!**</li>
+</ol>
+</div>
+<div class="fragment">
+<aside class="notes">
+<ul>
+<li>No es imprescindible Port dst</li>
+<li>Puede que haya que repetir cada pocos segundos</li>
+</ul>
+</aside>
+</div>
+</section>
+<section class="slide level2">
+
+</section>
+<section id="demo" class="title-slide slide level1"><h1>Demo</h1></section>
+    </div>
+  </div>
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
