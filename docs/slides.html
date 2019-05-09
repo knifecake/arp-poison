@@ -27,16 +27,6 @@
   <!--[if lt IE 9]>
   <script src="reveal.js/lib/js/html5shiv.js"></script>
   <![endif]-->
-  <style>
-  .reveal section img {
-          display: block;
-          margin: auto;
-          height: auto;
-          max-height: 450px;
-          width: auto;
-          max-width: 100%;
-  }
-  </style>
 </head>
 <body>
   <div class="reveal">
@@ -157,9 +147,6 @@ Prot dst: &lt;IP de la víctima&gt;*</code></pre>
 
 <p><img data-src="req_attack.png" /></p>
 </section>
-<section class="slide level2">
-
-</section>
 <section id="demo" class="title-slide slide level1"><h1>Demo</h1></section>
     </div>
   </div>
@@ -172,6 +159,8 @@ Prot dst: &lt;IP de la víctima&gt;*</code></pre>
       // Full list of configuration options available at:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
         // Push each slide change to the browser history
         history: true,
 
