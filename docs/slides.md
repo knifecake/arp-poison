@@ -5,7 +5,7 @@ date: mayo de 2019
 theme: white
 ---
 
-
+[https://github.com/knifecake/arp-poison ](https://github.com/knifecake/arp-poison)
 
 ----------------------------------
 
@@ -28,16 +28,7 @@ theme: white
 :::
 ::: {.column width="60%"}
 
-- No hay autenticación
-
-- Las direcciones de hardware a nivel ARP no tienen que coincidir con las
-    direcciones MAC a nivel de enlace.
-
-
-. . .
-
- 
-😯
+- Ejemplo de ARP sobre Ethernet e IP
 
 :::
 ::::::::::::::
@@ -76,6 +67,9 @@ Yes: (almost definitely)
 
 - RFC826 1982. David C. Plummer. MIT.
 
+
+- No es imprescindible que seamos el target.
+
 :::
 
 
@@ -102,6 +96,15 @@ Yes: (almost definitely)
 
 . . .
 
+
+![Source: 0x55534C, Wikipedia](mitm-attack.png)
+
+
+------------------------------------------------------
+
+### ¿Cómo lo hacemos?
+. . .
+
 1. Crear un paquete ARP-Request con los campos
 
 ```
@@ -110,13 +113,11 @@ Prot src: <IP del gateway>
 Prot dst: <IP de la víctima>*
 ```
 
-2. Empaquetarlo en un paquete Ethernet dirigido exclusivamente a la víctima:
+2. Envolverlo en un paquete Ethernet dirigido exclusivamente a la víctima:
    - No hacer *broadcast* nos mantiene ocultos
 
 3. Enviar!**
 
-
-. . .
 
 ::: notes
 
@@ -124,6 +125,10 @@ Prot dst: <IP de la víctima>*
  - Puede que haya que repetir cada pocos segundos
 
 :::
+
+----------------------------------------------------------
+
+![](req_attack.png)
 
 ----------------------------------------------------------
 

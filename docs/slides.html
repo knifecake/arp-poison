@@ -48,6 +48,10 @@
   <p class="date">mayo de 2019</p>
 </section>
 
+<section class="slide level2">
+
+<p><a href="https://github.com/knifecake/arp-poison">https://github.com/knifecake/arp-poison</a></p>
+</section>
 <section id="arp-address-resolution-protocol" class="slide level2">
 <h2>ARP: Address Resolution Protocol</h2>
 <ul>
@@ -64,11 +68,8 @@
 <p><small>Source: Wikipedia</small></p>
 </div><div class="column" style="width:60%;">
 <ul>
-<li><p>No hay autenticación</p></li>
-<li><p>Las direcciones de hardware a nivel ARP no tienen que coincidir con las direcciones MAC a nivel de enlace.</p></li>
+<li>Ejemplo de ARP sobre Ethernet e IP</li>
 </ul>
-<p>. . .</p>
-<p>😯</p>
 </div>
 </div>
 </section>
@@ -99,7 +100,8 @@ Yes: (almost definitely)
         the same hardware on which the request was received.</code></pre>
 <aside class="notes">
 <ul>
-<li>RFC826 1982. David C. Plummer. MIT.</li>
+<li><p>RFC826 1982. David C. Plummer. MIT.</p></li>
+<li><p>No es imprescindible que seamos el target.</p></li>
 </ul>
 </aside>
 </section>
@@ -121,6 +123,15 @@ Yes: (almost definitely)
 
 <h3 id="por-qué-nos-importa">¿Por qué nos importa?</h3>
 <div class="fragment">
+<figure>
+<img data-src="mitm-attack.png" alt="Source: 0x55534C, Wikipedia" /><figcaption>Source: 0x55534C, Wikipedia</figcaption>
+</figure>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="cómo-lo-hacemos">¿Cómo lo hacemos?</h3>
+<div class="fragment">
 <ol type="1">
 <li>Crear un paquete ARP-Request con los campos</li>
 </ol>
@@ -128,14 +139,12 @@ Yes: (almost definitely)
 Prot src: &lt;IP del gateway&gt;
 Prot dst: &lt;IP de la víctima&gt;*</code></pre>
 <ol start="2" type="1">
-<li>Empaquetarlo en un paquete Ethernet dirigido exclusivamente a la víctima:
+<li>Envolverlo en un paquete Ethernet dirigido exclusivamente a la víctima:
 <ul>
 <li>No hacer <em>broadcast</em> nos mantiene ocultos</li>
 </ul></li>
 <li>Enviar!**</li>
 </ol>
-</div>
-<div class="fragment">
 <aside class="notes">
 <ul>
 <li>No es imprescindible Port dst</li>
@@ -143,6 +152,10 @@ Prot dst: &lt;IP de la víctima&gt;*</code></pre>
 </ul>
 </aside>
 </div>
+</section>
+<section class="slide level2">
+
+<p><img data-src="req_attack.png" /></p>
 </section>
 <section class="slide level2">
 
